@@ -1,45 +1,39 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+    return {
+        store: {
+            favorites: []
+        },
+        actions: {
+            toggleFavorite: (item) => {
+                const store = getStore();
+                const isFavorite = store.favorites.some(fav => fav.id === item.id && fav.type === item.type);
+            
+                if (isFavorite) {
+                    setStore({
+                        favorites: store.favorites.filter(fav => !(fav.id === item.id && fav.type === item.type))
+                    });
+                } else {
+                    setStore({
+                        favorites: [
+                            ...store.favorites,
+                            { 
+                                id: item.id, 
+                                name: item.name || "Sem Nome", 
+                                type: item.type 
+                            }
+                        ]
+                    });
+                }
+            },
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
+            removeFavorite: (id) => {
+                const store = getStore();
+                setStore({
+                    favorites: store.favorites.filter(fav => fav.id !== id)
+                });
+            }
+        }
+    };
 };
 
 export default getState;
