@@ -18,7 +18,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             ...store.favorites,
                             { 
                                 id: item.id, 
-                                name: item.name || "Sem Nome", 
+                                name: item.name || "No Name", 
                                 type: item.type 
                             }
                         ]

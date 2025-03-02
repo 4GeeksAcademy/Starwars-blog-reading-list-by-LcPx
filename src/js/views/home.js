@@ -31,12 +31,12 @@ const Home = () => {
                     const result = await res.json();
                     newData[endpoint.key] = result.results.map(item => ({
                         id: item.uid, 
-                        name: item.name || item.properties?.name || item.properties?.title || "Sem nome"
+                        name: item.name || item.properties?.name || item.properties?.title || "No name"
                     }));
                 }
                 setData(newData);
             } catch (error) {
-                console.error("Erro ao buscar dados:", error);
+                console.error("Error fetching data:", error);
             }
         };
         fetchData();
@@ -49,39 +49,38 @@ const Home = () => {
                     <h2 className="text-warning text-uppercase">{category}</h2>
                     <div className="overflow-auto" style={{ whiteSpace: "nowrap" }}>
                         <div className="d-flex flex-row">
-                        {items.map((item) => {
-                            const id = item.uid || item.id; // Garante que estamos a pegar o id correto
-                            const itemName = item.name || item.properties?.name || item.properties?.title || "Desconhecido";
-                            const isFavorite = store.favorites.some(fav => fav.id === id && fav.type === category);
+                            {items.map((item) => {
+                                const id = item.uid || item.id;
+                                const itemName = item.name || item.properties?.name || item.properties?.title || "Unknown";
+                                const isFavorite = store.favorites.some(fav => fav.id === id && fav.type === category);
 
-                            return (
-                                <div key={`${category}-${id}`} className="card m-2" style={{ width: "18rem", flex: "0 0 auto" }}>
-                                    <img
-                                        src={`https://starwars-visualguide.com/assets/img/${category}/${id}.jpg`}
-                                        onError={(e) => e.target.src = noImage}
-                                        className="card-img-top"
-                                        alt={itemName}
-                                        style={{ height: "200px", objectFit: "cover" }}
-                                    />
-                                    <div className="card-body text-center">
-                                        <h5 className="card-title">{itemName}</h5>
-                                        <div className="d-flex justify-content-between">
-                                            <Link to={`/${category}/${id}`} className="btn btn-primary w-100">
-                                                Ver detalhes
-                                            </Link>
-                                            <button 
-                                                className="btn"
-                                                onClick={() => actions.toggleFavorite({ id, type: category, name: itemName })}
-                                                style={{ border: "none", background: "transparent" }}
-                                            >
-                                                {isFavorite ? "❤️" : "🤍"}
-                                            </button>
+                                return (
+                                    <div key={`${category}-${id}`} className="card m-2" style={{ width: "18rem", flex: "0 0 auto" }}>
+                                        <img
+                                            src={`https://starwars-visualguide.com/assets/img/${category}/${id}.jpg`}
+                                            onError={(e) => e.target.src = noImage}
+                                            className="card-img-top"
+                                            alt={itemName}
+                                            style={{ height: "200px", objectFit: "cover" }}
+                                        />
+                                        <div className="card-body text-center">
+                                            <h5 className="card-title">{itemName}</h5>
+                                            <div className="d-flex justify-content-between">
+                                                <Link to={`/${category}/${id}`} className="btn btn-primary w-100">
+                                                    See details
+                                                </Link>
+                                                <button 
+                                                    className="btn"
+                                                    onClick={() => actions.toggleFavorite({ id, type: category, name: itemName })}
+                                                    style={{ border: "none", background: "transparent" }}
+                                                >
+                                                    {isFavorite ? "❤️" : "🤍"}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

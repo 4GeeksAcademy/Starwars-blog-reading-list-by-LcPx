@@ -24,12 +24,12 @@ const Navbar = () => {
                         data-bs-toggle="dropdown" 
                         aria-expanded="false"
                     >
-                        Favoritos {store.favorites.length}
+                        Favorites {store.favorites.length}
                     </button>
 
                     <ul className="dropdown-menu dropdown-menu-end">
                         {store.favorites.length === 0 ? (
-                            <li className="dropdown-item text-center">Nenhum favorito</li>
+                            <li className="dropdown-item text-center">No favorites</li>
                         ) : (
                             store.favorites.map((fav) => (
                                 <li key={`${fav.type}-${fav.id}`} className="dropdown-item d-flex justify-content-between align-items-center">
